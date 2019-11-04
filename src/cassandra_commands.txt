@@ -1,0 +1,47 @@
+CREATE  KEYSPACE IF NOT EXISTS demo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
+USE demo;
+
+CREATE COLUMNFAMILY movies(
+tconst varchar PRIMARY KEY,
+Created timestamp,
+Position int,
+Modified timestamp,
+Description varchar,
+Title varchar,
+URL varchar,
+Title_Type varchar,
+IMDb_Rating float,
+Runtime int,
+Year varchar,
+Genres list<varchar>,
+Num_Votes int,
+Release_Date timestamp,
+Directors list<varchar>
+);
+
+docker run -p 9042:9042 --rm --name cassandra -d cassandra:latest
+docker cp out.csv cassandra:/root
+docker exec -it cassandra cqlsh 127.0.0.1
+
+docker run -e DS_LICENSE=accept --memory 4g --name my-dse -d datastax/dse-server
+
+
+COPY movies (
+tconst,
+Created,
+Description,
+Directors,
+Genres,
+IMDb_Rating,
+Modified,
+Num_Votes,
+Position,
+Release_Date,
+Runtime,
+Title,
+Title_Type,
+URL,
+Year
+) FROM '/root/out.csv' WITH HEADER = true;
+

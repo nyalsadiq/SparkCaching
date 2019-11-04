@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.datastax.spark:spark-cassandra-connector_2.11:2.4.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.datastax.spark/spark-cassandra-connector_2.11/2.4.1/65e0c45449d5d1c6acbce5ebd0cd07eec73c8595/spark-cassandra-connector_2.11-2.4.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.datastax.spark/spark-cassandra-connector_2.11/2.4.1/cde66403a611a898fd7e5e53bf0d36ee482a0c0d/spark-cassandra-connector_2.11-2.4.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

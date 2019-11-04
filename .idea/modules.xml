@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Uni-sparkcaching_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Uni-sparkcaching_main.iml" group="sparkcaching" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Uni-sparkcaching_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Uni-sparkcaching_test.iml" group="sparkcaching" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparkcaching.iml" filepath="$PROJECT_DIR$/.idea/modules/sparkcaching.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparkcaching_main.iml" filepath="$PROJECT_DIR$/.idea/modules/sparkcaching_main.iml" group="sparkcaching" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparkcaching_test.iml" filepath="$PROJECT_DIR$/.idea/modules/sparkcaching_test.iml" group="sparkcaching" />
+    </modules>
+  </component>
+</project>
