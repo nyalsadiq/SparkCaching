@@ -10,7 +10,7 @@ algorithm to LRU.
 ### Design:
 I have implemented LIFO, FIFO, and LFU algorithms using the following approach:
 
-* I have Implement cache classes that can take RDDs and invoke their existing cache() functions. After invoking, the class then
+* I have implemented cache classes that can take RDDs and invoke their existing cache() functions. After invoking, the class then
 stores the RDD object in a structure appropriate for the cache replacement algorithm to be used.
 
 * The cache classes expose a cache(RDD) method, currently this has to be manually invoked and passed an RDD by the programmer.
