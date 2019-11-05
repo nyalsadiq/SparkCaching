@@ -1,24 +1,21 @@
-package caching;
+package caching.cache;
 
 
 import org.apache.spark.api.java.JavaRDD;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-public class LIFOCache implements Serializable, Cache {
+public class FIFOCache implements Serializable, Cache {
 
-    public LIFOCache(int maxCacheSize) {
+    public FIFOCache(int maxCacheSize) {
         this.maxCacheSize = maxCacheSize;
-        cache = new ArrayDeque<>();
+        cache = new ArrayList<>();
         contents = new HashSet<>();
     }
 
     private int maxCacheSize;
-    private Deque<JavaRDD> cache;
+    private List<JavaRDD> cache;
     private Set<JavaRDD> contents;
 
     public void cache(JavaRDD item) {
@@ -29,7 +26,7 @@ public class LIFOCache implements Serializable, Cache {
 
         if (cache.size() >= maxCacheSize) {
             System.out.println("CACHE FULL");
-            JavaRDD lru = cache.removeLast();
+            JavaRDD lru = cache.remove(0);
             lru.unpersist(false);
             contents.remove(lru);
             System.out.println(String.format("REMOVED %s", lru.toString()));
@@ -37,7 +34,7 @@ public class LIFOCache implements Serializable, Cache {
 
 
         item.cache();
-        cache.addLast(item);
+        cache.add(item);
         contents.add(item);
 
         System.out.println(String.format("INSERTED %s", item.toString()));

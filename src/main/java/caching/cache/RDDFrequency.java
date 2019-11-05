@@ -1,4 +1,4 @@
-package caching;
+package caching.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

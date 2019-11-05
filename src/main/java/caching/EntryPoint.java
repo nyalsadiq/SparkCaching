@@ -1,5 +1,8 @@
 package caching;
 
+import caching.Title;
+import caching.cache.Cache;
+import caching.cache.LFUCache;
 import com.datastax.spark.connector.japi.CassandraJavaUtil;
 import com.datastax.spark.connector.japi.rdd.CassandraTableScanJavaRDD;
 import org.apache.spark.SparkConf;

@@ -1,4 +1,4 @@
-package caching;
+package caching.cache;
 
 import org.apache.spark.api.java.JavaRDD;
 
