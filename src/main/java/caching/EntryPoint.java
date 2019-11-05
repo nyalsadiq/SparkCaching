@@ -21,8 +21,10 @@ public class EntryPoint {
 
         JavaSparkContext sc = new JavaSparkContext(conf);
 
+        // Create cache with max size of 3 RDD's for demo purposes.
         Cache cache = new LFUCache(3);
 
+        // Connect to Cassandra instance, storing movie details
         CassandraTableScanJavaRDD<Title> rdd =
                 CassandraJavaUtil.javaFunctions(sc).cassandraTable(
                         "demo",
@@ -32,31 +34,47 @@ public class EntryPoint {
 
         rdd.setName("Table Scan RDD");
 
-        cache.cache(rdd); // Cache table scan
-
-        System.out.println(cache.toString());
-
-        JavaRDD mappedRDD = rdd.map(title -> title.getTitle()).setName("Mapped RDD");
-        cache.cache(mappedRDD); // Cache filtered RDD
-
-        cache.cache(rdd); // Caching table scan again results in it's frequency stat being increased.
+        // Cache table scan RDD
         cache.cache(rdd);
 
         System.out.println(cache.toString());
 
+        // Create a Map RDD and cache it.
+        JavaRDD mappedRDD = rdd.map(title -> title.getTitle()).setName("Mapped RDD");
+        cache.cache(mappedRDD);
+
+        /* Cache table scan RDD twice again to simulate two accesses
+        * this increments it's frequency in the LFU cache.*/
+        cache.cache(rdd);
+        cache.cache(rdd);
+
+        System.out.println(cache.toString());
+
+        // Create and cache filter RDD.
         JavaRDD filterRDD = mappedRDD.filter(title -> title.equals("Star Wars")).setName("Filter RDD");
         cache.cache(filterRDD);
 
+        // CACHE IS NOW FULL (3 RDDs)
+
         System.out.println(cache.toString());
 
+        // Cache this RDD, will result in the LFU policy being invoked.
         JavaRDD secondFilterRDD = filterRDD.map(title -> title + " Movie").setName("Filter RDD 2");
         cache.cache(secondFilterRDD);
 
+
         System.out.println(cache.toString());
+        /*
+        Above line will print this:
+            CURRENT CACHE STATUS:
+            [
+                Frequency: 1, RDD: Filter RDD,
+                Frequency: 3, RDD: Table Scan RDD,
+                Frequency: 1, RDD: Filter RDD 2,
+            ]
+         */
 
         rdd.foreach(Object::toString);
-
-        System.out.println(cache.toString());
 
         sc.stop();
     }
