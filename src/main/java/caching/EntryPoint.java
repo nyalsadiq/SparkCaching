@@ -18,7 +18,7 @@ public class EntryPoint {
 
         JavaSparkContext sc = new JavaSparkContext(conf);
 
-        Cache cache = new LFUCache(5);
+        Cache cache = new LFUCache(3);
 
         CassandraTableScanJavaRDD<Title> rdd =
                 CassandraJavaUtil.javaFunctions(sc).cassandraTable(
@@ -27,16 +27,33 @@ public class EntryPoint {
                         mapRowTo(Title.class)
                 );
 
-
         rdd.setName("Table Scan RDD");
+
         cache.cache(rdd); // Cache table scan
 
-        JavaRDD filteredRDD = rdd.filter(title -> title.getTitle().equals("Star Wars"));
-        cache.cache(filteredRDD); // Cache filtered RDD
+        System.out.println(cache.toString());
+
+        JavaRDD mappedRDD = rdd.map(title -> title.getTitle()).setName("Mapped RDD");
+        cache.cache(mappedRDD); // Cache filtered RDD
 
         cache.cache(rdd); // Caching table scan again results in it's frequency stat being increased.
+        cache.cache(rdd);
+
+        System.out.println(cache.toString());
+
+        JavaRDD filterRDD = mappedRDD.filter(title -> title.equals("Star Wars")).setName("Filter RDD");
+        cache.cache(filterRDD);
+
+        System.out.println(cache.toString());
+
+        JavaRDD secondFilterRDD = filterRDD.map(title -> title + " Movie").setName("Filter RDD 2");
+        cache.cache(secondFilterRDD);
+
+        System.out.println(cache.toString());
 
         rdd.foreach(Object::toString);
+
+        System.out.println(cache.toString());
 
         sc.stop();
     }
